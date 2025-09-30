@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Magnolia Rivera — Dawn to Midnight Portfolio</title>
+    <meta name="description" content="Narrative portfolio journey from sunrise to midnight." />
+    <link rel="stylesheet" href="../src/styles/base.css" />
+    <link rel="stylesheet" href="../src/styles/components.css" />
+  </head>
+  <body>
+    <canvas id="particle-canvas" aria-hidden="true"></canvas>
+    <main>
+      <section id="scene-house" class="scene" data-scene-hex="#FAF8F5" data-scene-tint="sunrise">
+        <div class="scene__inner"></div>
+      </section>
+      <section id="scene-porch" class="scene" data-scene-hex="#F9E6EB" data-scene-tint="sunrise">
+        <div class="scene__inner"></div>
+      </section>
+      <section id="scene-sunrise" class="scene" data-scene-hex="#FFD9C7" data-scene-tint="sunrise" data-project-id="sunrise">
+        <div class="scene__inner"></div>
+      </section>
+      <section id="scene-sunset" class="scene" data-scene-hex="#F9B1C1" data-scene-tint="sunset" data-project-id="sunset">
+        <div class="scene__inner"></div>
+      </section>
+      <section id="scene-midnight" class="scene" data-scene-hex="#E1D9F6" data-scene-tint="midnight" data-project-id="midnight">
+        <div class="scene__inner"></div>
+      </section>
+      <section id="scene-return" class="scene" data-scene-hex="#F5E8F0" data-scene-tint="sunset">
+        <div class="scene__inner"></div>
+      </section>
+      <section id="scene-guests" class="scene" data-scene-hex="#F8EEF4" data-scene-tint="sunrise">
+        <div class="scene__inner"></div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.27/bundled/lenis.min.js" defer></script>
+    <script type="module" src="../src/js/app.js"></script>
+  </body>
+</html>

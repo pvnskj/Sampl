@@ -1,0 +1,73 @@
+.cursor-ripple {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  border: 2px solid rgba(232, 192, 200, 0.5);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.4);
+  transition: opacity var(--duration-standard) var(--easing-soft), transform var(--duration-standard) var(--easing-soft);
+  z-index: 10;
+}
+
+.cursor-ripple.is-active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+[data-counting] {
+  position: relative;
+}
+
+[data-counting]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 rgba(232, 192, 200, 0.4);
+  opacity: 0;
+  transition: box-shadow var(--duration-standard) var(--easing-soft), opacity var(--duration-standard) var(--easing-soft);
+}
+
+[data-counting].is-energized::after {
+  opacity: 1;
+  box-shadow: 0 0 0 12px rgba(232, 192, 200, 0);
+}
+
+.carousel-controls {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.carousel-button {
+  border: none;
+  background: rgba(79, 74, 69, 0.08);
+  color: var(--ink);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: background var(--duration-micro) var(--easing-soft), transform var(--duration-micro) var(--easing-soft);
+}
+
+.carousel-button:hover,
+.carousel-button:focus-visible {
+  background: rgba(232, 192, 200, 0.45);
+  transform: translateY(-2px);
+}
+
+.carousel-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.hidden-visually {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
