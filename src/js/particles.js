@@ -11,7 +11,8 @@ export class MagnoliaParticles {
     this.canvas = canvas;
     this.reducedMotion = reducedMotion;
     this.pointer = new THREE.Vector2(0, 0);
-    this.motionLevel = 0.5;
+    this.interactivitySettings = { motionLevel: reducedMotion ? 0.05 : 0.6, pointSize: 6 };
+    this.motionLevel = this.interactivitySettings.motionLevel;
     this.uniforms = {
       uTime: { value: 0 },
       uTint: { value: new THREE.Vector3(0.93, 0.82, 0.86) },
@@ -21,6 +22,7 @@ export class MagnoliaParticles {
     };
     this.clock = new THREE.Clock();
     this.burstActive = false;
+    this.rafId = null;
   }
 
   init() {
@@ -130,7 +132,9 @@ export class MagnoliaParticles {
     this.uniforms.uMotion.value = this.motionLevel;
     this.renderer.render(this.scene, this.camera);
     if (!this.reducedMotion) {
-      requestAnimationFrame(this.animate);
+      this.rafId = requestAnimationFrame(this.animate);
+    } else {
+      this.rafId = null;
     }
   }
 
@@ -140,11 +144,31 @@ export class MagnoliaParticles {
   }
 
   setInteractivity({ motionLevel = 0.6, pointSize = 6 } = {}) {
+    this.interactivitySettings = { motionLevel, pointSize };
     this.motionLevel = this.reducedMotion ? 0.05 : motionLevel;
+    if (this.uniforms) {
+      this.uniforms.uMotion.value = this.motionLevel;
+    }
+    this.uniforms.uPointSize.value = this.reducedMotion ? pointSize * 0.8 : pointSize;
+  }
+
+  setReducedMotion(enabled) {
+    this.reducedMotion = Boolean(enabled);
+    const { motionLevel = 0.6, pointSize = 6 } = this.interactivitySettings;
+    this.motionLevel = this.reducedMotion ? 0.05 : motionLevel;
+
+    if (this.uniforms) {
+      this.uniforms.uMotion.value = this.motionLevel;
+      this.uniforms.uPointSize.value = this.reducedMotion ? pointSize * 0.8 : pointSize;
+    }
+
     if (this.reducedMotion) {
-      this.uniforms.uPointSize.value = pointSize * 0.8;
-    } else {
-      this.uniforms.uPointSize.value = pointSize;
+      if (this.rafId) {
+        cancelAnimationFrame(this.rafId);
+        this.rafId = null;
+      }
+    } else if (!this.rafId && this.renderer) {
+      this.animate();
     }
   }
 
