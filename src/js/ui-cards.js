@@ -29,14 +29,14 @@ function setupMetricCounter(metricEl, particles, reducedMotion) {
         const animate = (time) => {
           const progress = Math.min((time - start) / duration, 1);
           const eased = 1 - Math.pow(1 - progress, 3);
-          const current = (numberTarget * eased).toFixed(value.includes('%') ? 0 : 1);
+          const current = (numberTarget * eased).toFixed(value.includes('%') || Number.isInteger(numberTarget) ? 0 : 1);
           span.textContent = `${current}${suffix}`;
           if (progress < 1) {
             requestAnimationFrame(animate);
           } else {
             metricEl.classList.add('is-energized');
-            particles?.burstFlower({ strength: 0.6 });
-            setTimeout(() => metricEl.classList.remove('is-energized'), 800);
+            particles?.burstFlower({ strength: 0.5 });
+            setTimeout(() => metricEl.classList.remove('is-energized'), 900);
           }
         };
         requestAnimationFrame(animate);
@@ -47,8 +47,7 @@ function setupMetricCounter(metricEl, particles, reducedMotion) {
   observer.observe(metricEl);
 }
 
-function createTabs(content) {
-  const tabIds = Object.keys(content);
+function createTabs(panelData = [], idPrefix = 'panel') {
   const tabGroup = document.createElement('div');
   tabGroup.className = 'tab-group';
   tabGroup.setAttribute('role', 'tablist');
@@ -56,24 +55,25 @@ function createTabs(content) {
   const panels = document.createElement('div');
   panels.className = 'tab-panels';
 
-  tabIds.forEach((key, index) => {
+  panelData.forEach((panel, index) => {
+    const uniqueId = `${idPrefix}-${panel.id}-${Math.random().toString(36).slice(2, 7)}`;
     const tab = document.createElement('button');
     tab.className = 'tab';
     tab.type = 'button';
-    tab.id = `tab-${key}-${Math.random().toString(36).slice(2, 7)}`;
+    tab.id = uniqueId;
     tab.role = 'tab';
-    tab.textContent = key.charAt(0).toUpperCase() + key.slice(1);
+    tab.textContent = panel.label;
     tab.setAttribute('aria-selected', index === 0);
-    tab.setAttribute('aria-controls', `${tab.id}-panel`);
+    tab.setAttribute('aria-controls', `${uniqueId}-panel`);
     tabGroup.appendChild(tab);
 
-    const panel = document.createElement('div');
-    panel.className = 'tab-panel';
-    panel.id = `${tab.id}-panel`;
-    panel.role = 'tabpanel';
-    panel.setAttribute('aria-hidden', index === 0 ? 'false' : 'true');
-    panel.innerHTML = content[key];
-    panels.appendChild(panel);
+    const panelEl = document.createElement('div');
+    panelEl.className = 'tab-panel';
+    panelEl.id = `${uniqueId}-panel`;
+    panelEl.role = 'tabpanel';
+    panelEl.setAttribute('aria-hidden', index === 0 ? 'false' : 'true');
+    panelEl.innerHTML = panel.body;
+    panels.appendChild(panelEl);
   });
 
   return { tabGroup, panels };
@@ -91,7 +91,7 @@ function enableTabs(container, particles) {
         btn.setAttribute('aria-selected', selected);
         panels[i].setAttribute('aria-hidden', selected ? 'false' : 'true');
       });
-      particles?.waveSwell(0.25, 900);
+      particles?.waveSwell(0.2, 800);
     });
   });
 }
@@ -99,13 +99,14 @@ function enableTabs(container, particles) {
 function renderProjectScene(project, particles, reducedMotion) {
   const section = document.querySelector(`#scene-${project.id}`);
   if (!section) return;
+  section.style.setProperty('--scene-spectrum', project.spectrum);
   const card = document.createElement('article');
   card.className = 'glass-card project-card';
   card.tabIndex = 0;
 
   const header = document.createElement('header');
   header.innerHTML = `
-    <p class="scene__eyebrow">${project.id.toUpperCase()}</p>
+    <p class="scene__eyebrow">${project.codename}</p>
     <h2 class="scene__title">${project.title}</h2>
     <p class="scene__subtitle">${project.hook}</p>
     <p>${project.outcome}</p>
@@ -119,13 +120,7 @@ function renderProjectScene(project, particles, reducedMotion) {
     setupMetricCounter(metricEl, particles, reducedMotion);
   });
 
-  const { tabGroup, panels } = createTabs({
-    overview: project.content.overview,
-    methodology: project.content.methodology,
-    analysis: project.content.analysis,
-    results: project.content.results,
-    media: project.content.media
-  });
+  const { tabGroup, panels } = createTabs(project.content.panels, project.id);
 
   const body = document.createElement('div');
   body.className = 'scene__content';
@@ -136,15 +131,23 @@ function renderProjectScene(project, particles, reducedMotion) {
   enableTabs(card, particles);
 }
 
-function renderAboutScene() {
-  const section = document.querySelector('#scene-porch .scene__inner');
+function renderBriefingScene() {
+  const section = document.querySelector('#scene-briefing .scene__inner');
   if (!section) return;
-  const title = document.createElement('h1');
+  section.innerHTML = '';
+
+  const eyebrow = document.createElement('p');
+  eyebrow.className = 'scene__eyebrow';
+  eyebrow.textContent = 'Crew Briefing';
+
+  const title = document.createElement('h2');
   title.className = 'scene__title';
   title.textContent = about.name;
+
   const subtitle = document.createElement('p');
   subtitle.className = 'scene__subtitle';
   subtitle.textContent = about.title;
+
   const lines = document.createElement('div');
   lines.className = 'scene__content';
   about.lines.forEach((line) => {
@@ -152,6 +155,7 @@ function renderAboutScene() {
     p.textContent = line;
     lines.appendChild(p);
   });
+
   const tags = document.createElement('div');
   tags.className = 'scene__tags';
   about.tags.forEach((tag) => {
@@ -160,27 +164,35 @@ function renderAboutScene() {
     span.textContent = tag;
     tags.appendChild(span);
   });
-  section.append(title, subtitle, lines, tags);
+
+  section.append(eyebrow, title, subtitle, lines, tags);
 }
 
-function renderHomeScene() {
-  const section = document.querySelector('#scene-house .scene__inner');
+function renderGatewayScene() {
+  const section = document.querySelector('#scene-gateway .scene__inner');
   if (!section) return;
   section.innerHTML = `
+    <p class="scene__eyebrow">Trajectory Log</p>
     <h1 class="scene__title">Magnolia Rivera</h1>
-    <p class="scene__subtitle">Narrative Product Designer guiding experiences from dawn to midnight.</p>
+    <p class="scene__subtitle">Designing luminous journeys where speculative futures become lived systems.</p>
     <div class="scene__content">
-      <p>Scroll to step into the story.</p>
+      <p>Scroll to sync with the mission timeline. Every scene unlocks a micro-interaction choreographed with the particle field.</p>
     </div>
   `;
 }
 
-function renderSkillsScene() {
-  const section = document.querySelector('#scene-return .scene__inner');
+function renderLabScene() {
+  const section = document.querySelector('#scene-lab .scene__inner');
   if (!section) return;
+  section.innerHTML = '';
+
   const headline = document.createElement('h2');
   headline.className = 'scene__title';
-  headline.textContent = 'Skills & Contact';
+  headline.textContent = 'Lab & Availability';
+
+  const preface = document.createElement('p');
+  preface.className = 'scene__subtitle';
+  preface.textContent = 'Crafting prototypes, frameworks, and alliances for near futures.';
 
   const skillsGrid = document.createElement('div');
   skillsGrid.className = 'skills-grid';
@@ -195,26 +207,31 @@ function renderSkillsScene() {
   const contactCard = document.createElement('div');
   contactCard.className = 'contact-card';
   contactCard.innerHTML = `
-    <h3>Let\'s co-create</h3>
+    <h3>Open channels</h3>
+    <p>Currently guiding two missions and booking collaborations for Q4.</p>
     <p>Email <a href="mailto:hello@magnoliarivera.design">hello@magnoliarivera.design</a></p>
-    <p>Based in Santa Cruz, collaborating globally.</p>
+    <p>Based between orbital dock seven and Pacific timezones.</p>
   `;
 
-  section.append(headline, skillsGrid, contactCard);
+  section.append(headline, preface, skillsGrid, contactCard);
 }
 
 function renderTestimonialsScene(particles) {
-  const section = document.querySelector('#scene-guests .scene__inner');
+  const section = document.querySelector('#scene-allies .scene__inner');
   if (!section) return;
+  section.innerHTML = '';
+
   const title = document.createElement('h2');
   title.className = 'scene__title';
-  title.textContent = 'Guests & Reflections';
+  title.textContent = 'Allies & Signals';
+
   const subtitle = document.createElement('p');
   subtitle.className = 'scene__subtitle';
-  subtitle.textContent = 'Voices from collaborators along the shore.';
+  subtitle.textContent = 'Transmission logs from collaborators across the network.';
 
   const track = document.createElement('div');
   track.className = 'testimonial-track';
+  track.setAttribute('aria-live', 'polite');
 
   testimonials.forEach((testimonial) => {
     const card = document.createElement('article');
@@ -229,46 +246,46 @@ function renderTestimonialsScene(particles) {
 
   section.append(title, subtitle, track);
 
-  let index = 0;
   const cards = Array.from(track.children);
+  if (!cards.length) return;
+
+  let index = 0;
 
   const updateCarousel = () => {
-    if (!cards.length) return;
-    const style = window.getComputedStyle(track);
-    const gap = parseFloat(style.columnGap || style.gap || '24');
+    const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || '24');
     const cardWidth = cards[0].offsetWidth;
     const offset = -index * (cardWidth + gap);
-    track.style.transform = `translateX(${offset}px)`;
+    track.style.transform = `translate3d(${offset}px, 0, 0)`;
   };
 
   const advance = () => {
     index = (index + 1) % cards.length;
     updateCarousel();
-    particles?.burstFlower({ strength: 0.4 });
+    particles?.burstFlower({ strength: 0.35 });
   };
 
   updateCarousel();
 
-  let interval = setInterval(advance, 6000);
+  let interval = setInterval(advance, 6200);
 
   track.addEventListener('pointerenter', () => clearInterval(interval));
   track.addEventListener('pointerleave', () => {
-    interval = setInterval(advance, 6000);
+    interval = setInterval(advance, 6200);
   });
 
   window.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       clearInterval(interval);
     } else {
-      interval = setInterval(advance, 6000);
+      interval = setInterval(advance, 6200);
     }
   });
 }
 
 export function renderUI({ particles, reducedMotion }) {
-  renderHomeScene();
-  renderAboutScene();
+  renderGatewayScene();
+  renderBriefingScene();
   projects.forEach((project) => renderProjectScene(project, particles, reducedMotion));
-  renderSkillsScene();
+  renderLabScene();
   renderTestimonialsScene(particles);
 }

@@ -2,10 +2,10 @@
   position: fixed;
   border-radius: 50%;
   pointer-events: none;
-  border: 2px solid rgba(232, 192, 200, 0.5);
+  border: 2px solid color-mix(in srgb, var(--cursor-accent, var(--accent-active)) 65%, rgba(255, 255, 255, 0.5));
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.4);
-  transition: opacity var(--duration-standard) var(--easing-soft), transform var(--duration-standard) var(--easing-soft);
+  transform: translate(-50%, -50%) scale(0.35);
+  transition: opacity var(--duration-standard) var(--easing-soft), transform var(--duration-standard) var(--easing-fluid), border-color var(--duration-standard) var(--easing-soft);
   z-index: 10;
 }
 
@@ -23,14 +23,14 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow: 0 0 0 0 rgba(232, 192, 200, 0.4);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--scene-accent) 45%, rgba(15, 23, 42, 0.2));
   opacity: 0;
   transition: box-shadow var(--duration-standard) var(--easing-soft), opacity var(--duration-standard) var(--easing-soft);
 }
 
 [data-counting].is-energized::after {
   opacity: 1;
-  box-shadow: 0 0 0 12px rgba(232, 192, 200, 0);
+  box-shadow: 0 0 0 18px rgba(255, 255, 255, 0);
 }
 
 .carousel-controls {
@@ -41,22 +41,24 @@
 
 .carousel-button {
   border: none;
-  background: rgba(79, 74, 69, 0.08);
+  background: rgba(15, 23, 42, 0.06);
   color: var(--ink);
-  border-radius: var(--radius-sm);
-  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-pill);
+  padding: 0.5rem 0.85rem;
   cursor: pointer;
-  transition: background var(--duration-micro) var(--easing-soft), transform var(--duration-micro) var(--easing-soft);
+  transition: background var(--duration-micro) var(--easing-soft), transform var(--duration-micro) var(--easing-soft), color var(--duration-micro) var(--easing-soft);
+  font-size: var(--font-size-sm);
 }
 
 .carousel-button:hover,
 .carousel-button:focus-visible {
-  background: rgba(232, 192, 200, 0.45);
+  background: color-mix(in srgb, var(--accent-active) 45%, rgba(255, 255, 255, 0.85));
+  color: var(--ink);
   transform: translateY(-2px);
 }
 
 .carousel-button:disabled {
-  opacity: 0.4;
+  opacity: 0.35;
   cursor: not-allowed;
   transform: none;
 }

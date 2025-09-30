@@ -1,105 +1,159 @@
 export const projects = [
   {
-    id: 'sunrise',
-    title: 'Reinventing the TV Guide',
-    hook: 'Designing a companion experience that feels like sunrise for streaming discovery.',
-    outcome: 'Increased daily program saves by 36% within the first month.',
+    id: 'signal',
+    codename: 'Mission 01',
+    title: 'Signal Array — Telemetry for Orbital Clinics',
+    hook: 'Stabilising remote-care constellations with predictive telemetry and empathic triage scripts.',
+    outcome: 'Compressed escalation loops to twelve minutes across six outer-orbit stations.',
     images: ['./public/assets/sun.svg'],
-    sceneTint: '#FFD9C7',
-    particleBias: 0.25,
+    spectrum: '#DFF6FF',
+    particleBias: 0.35,
     content: {
       metrics: [
-        { value: '36%', label: 'More saves' },
-        { value: '4.8', label: 'App Store rating' },
-        { value: '3x', label: 'Time-on-guide' }
+        { value: '12 min', label: 'Escalation loop' },
+        { value: '6 stations', label: 'Linked orbitals' },
+        { value: '97%', label: 'Operator confidence' }
       ],
-      overview: '<p>Sunrise invites viewers to browse without friction. It reframes the TV guide into a personal morning ritual.</p>',
-      methodology: '<p>Conducted diary studies, heuristic audits, and built rapid prototypes with a focus on accessibility.</p>',
-      analysis: '<p>Identified cognitive load issues and surfaced personalized content clusters to reduce decision fatigue.</p>',
-      results: '<p>Launched phased rollout with A/B testing; new guide delivered 22% faster path to watch.</p>',
-      media: '<p>View interactive prototype and hero screens.</p>'
+      panels: [
+        {
+          id: 'mission',
+          label: 'Mission Brief',
+          body: '<p>Rewired telemetry so clinicians receive calm, prioritised context instead of alarm storms. Built bilingual voice rituals that keep patients grounded while satellites align.</p>'
+        },
+        {
+          id: 'system',
+          label: 'System Mesh',
+          body: '<p>Modelled care loops with bio-signal scientists, resulting in a distributed dashboard where each orbital sees planetary load, queue health, and emergent anomalies.</p>'
+        },
+        {
+          id: 'interface',
+          label: 'Interface Rituals',
+          body: '<p>Crafted ambient UI with adaptive typography for zero-g tablets, layering haptic cues for gloved responders and high-contrast night ops.</p>'
+        },
+        {
+          id: 'proof',
+          label: 'Proof & Telemetry',
+          body: '<p>Deployed rolling betas with data guards. Escalation accuracy climbed 31% while distress language decreased 44% in transcripts.</p>'
+        }
+      ]
     }
   },
   {
-    id: 'sunset',
-    title: 'Gundersen Pharmacy',
-    hook: 'Closing the loop on prescription care with a sunset-toned platform.',
-    outcome: 'Reduced refill support tickets by 41% after redesign.',
+    id: 'atlas',
+    codename: 'Mission 02',
+    title: 'Atlas Commons — Knowledge Streaming for Planetfall Crews',
+    hook: 'Turning fragmented research into a living map for crews touching down on new worlds.',
+    outcome: 'Enabled crews to compose landing briefs in under five minutes with traceable provenance.',
     images: ['./public/assets/sun.svg'],
-    sceneTint: '#F9B1C1',
-    particleBias: 0.45,
+    spectrum: '#E9E6FF',
+    particleBias: 0.55,
     content: {
       metrics: [
-        { value: '41%', label: 'Support ticket drop' },
-        { value: '2x', label: 'Faster refills' },
-        { value: '96%', label: 'Patient satisfaction' }
+        { value: '5 min', label: 'Landing brief assembly' },
+        { value: '420 TB', label: 'Indexed archives' },
+        { value: '88%', label: 'Reuse uplift' }
       ],
-      overview: '<p>A warm pharmacy companion that guides patients from request to pickup with clarity.</p>',
-      methodology: '<p>Partnered with clinicians to map workflows and craft empathetic messaging.</p>',
-      analysis: '<p>Deployed service blueprints and stress-tested high-risk paths with moderated sessions.</p>',
-      results: '<p>Handoff between pharmacists and patients now surfaces in-app notifications with action cards.</p>',
-      media: '<p>Case study deck and motion mocks.</p>'
+      panels: [
+        {
+          id: 'mission',
+          label: 'Mission Brief',
+          body: '<p>Unified colonial research, field notes, and alien linguistics into a commons that orients crews before atmosphere entry.</p>'
+        },
+        {
+          id: 'cartography',
+          label: 'Cartography',
+          body: '<p>Introduced wayfinding layers—climate, culture, biosphere—to help crews simulate routes, see risk gradients, and author alternative plans collaboratively.</p>'
+        },
+        {
+          id: 'collaboration',
+          label: 'Collaboration Protocols',
+          body: '<p>Designed holo-notes and asynchronous rituals that keep anthropologists, tacticians, and medics in sync across light-minutes of delay.</p>'
+        },
+        {
+          id: 'outcomes',
+          label: 'Outcomes',
+          body: '<p>Decision latency shrank by 62%. Duplicate surveys fell 48% after provenance trails turned into auto-summaries everyone trusts.</p>'
+        }
+      ]
     }
   },
   {
-    id: 'midnight',
-    title: 'Validating “Live Rooms”',
-    hook: 'A midnight study exploring intimacy and presence in live audio.',
-    outcome: 'Defined the MVP narrative and shipped exploratory betas in eight weeks.',
+    id: 'horizon',
+    codename: 'Mission 03',
+    title: 'Horizon Loom — Negotiation Tools for Multi-Species Councils',
+    hook: 'Facilitating shared futures between oceanic, aerial, and terrestrial delegates.',
+    outcome: 'Drafted eight binding accords while maintaining cross-biome satisfaction scores above ninety percent.',
     images: ['./public/assets/moon.svg'],
-    sceneTint: '#E1D9F6',
-    particleBias: 0.65,
+    spectrum: '#F4E9FF',
+    particleBias: 0.7,
     content: {
       metrics: [
-        { value: '8 wks', label: 'Beta launch' },
-        { value: '5 cohorts', label: 'Participatory research' },
-        { value: '92%', label: 'Session completion' }
+        { value: '8 accords', label: 'Signed agreements' },
+        { value: '93%', label: 'Council resonance' },
+        { value: '0', label: 'Accessibility escalations' }
       ],
-      overview: '<p>Live Rooms celebrates the intimacy of late-night conversations through respectful ambient design.</p>',
-      methodology: '<p>Co-creation labs, generative storyboards, and multi-device prototyping.</p>',
-      analysis: '<p>Mapped emotional peaks and drop-offs to craft adaptive moderation tools.</p>',
-      results: '<p>Guided leadership buy-in and expanded roadmap for social presence features.</p>',
-      media: '<p>Journey maps, audio scripts, and UI libraries.</p>'
+      panels: [
+        {
+          id: 'mission',
+          label: 'Mission Brief',
+          body: '<p>Wove ritual, data, and story so amphibian elders, sky-faring strategists, and human mediators could synthesise intent in one space.</p>'
+        },
+        {
+          id: 'sensory',
+          label: 'Sensory Channels',
+          body: '<p>Built multi-sensory canvases—luminous tide maps, thermal blooms, aerial drafts—that translate intent without forcing a dominant language.</p>'
+        },
+        {
+          id: 'ethics',
+          label: 'Ethics Loop',
+          body: '<p>Established mutual-care protocols, fail-safes for emergency retreats, and accessibility buffers tuned per species biology.</p>'
+        },
+        {
+          id: 'impact',
+          label: 'Impact',
+          body: '<p>After three summits, disputes re-opened 0 times. Delegates reported new empathy metrics up seventeen points quarter over quarter.</p>'
+        }
+      ]
     }
   }
 ];
 
 export const about = {
   name: 'Magnolia Rivera',
-  title: 'Product Designer & Narrative Systems Thinker',
+  title: 'Interstellar Experience Cartographer',
   lines: [
-    'Designing interactive stories that feel like seaside dawns.',
-    'Crafting immersive product journeys for health, media, and community.',
-    'Honoring craft, data, and inclusivity with every decision.'
+    'Guiding futures where humans, allies, and AI steward shared ecosystems.',
+    'Prototyping rituals that turn complex systems into lucid, felt journeys.',
+    'Designing with data ethics, accessibility, and emotional safety baked in.'
   ],
-  tags: ['Product Strategy', 'Narrative UX', 'Inclusive Research', 'Motion Systems']
+  tags: ['Speculative UX', 'Systems Strategy', 'Accessibility Steward', 'Story-driven Research']
 };
 
 export const skills = [
-  { name: 'Journey Mapping' },
-  { name: 'Service Design' },
-  { name: 'Design Systems' },
-  { name: 'Qualitative Research' },
-  { name: 'Story Prototyping' },
-  { name: 'Workshop Facilitation' },
-  { name: 'Accessibility Audits' },
-  { name: 'Motion Guidelines' }
+  { name: 'Constellation Mapping' },
+  { name: 'Ethical Service Design' },
+  { name: 'Adaptive Interface Systems' },
+  { name: 'Participatory Futures' },
+  { name: 'Motion Direction' },
+  { name: 'Narrative Facilitation' },
+  { name: 'Governance Prototyping' },
+  { name: 'Zero-G Accessibility' }
 ];
 
 export const testimonials = [
   {
-    author: 'Casey Patel',
-    role: 'Head of Product, StreamNow',
-    quote: 'Magnolia choreographs product journeys like films. Every beat respects the audience.'
+    author: 'Dr. Hyejin Park',
+    role: 'Chief Medical Officer, Lagrange Clinics',
+    quote: 'Signal Array lets our teams breathe again—the telemetry feels alive and compassionate.'
   },
   {
-    author: 'Lena Ortiz',
-    role: 'Director of Pharmacy, Gundersen',
-    quote: 'She translated complex care pathways into warmth and confidence for patients.'
+    author: 'Commander Liora Naresh',
+    role: 'Planetfall Lead, Atlas Initiative',
+    quote: 'Magnolia translated chaos into a commons. We land with clarity instead of guesswork.'
   },
   {
-    author: 'Jordan Lee',
-    role: 'VP Research, Chorus',
-    quote: 'Live Rooms became a blueprint for respectful social spaces thanks to Magnolia\'s rigor.'
+    author: 'Elder Thren',
+    role: 'Oceanic Delegate, Horizon Council',
+    quote: 'Her loom gives every species a true voice. Accord nights are now songs, not skirmishes.'
   }
 ];
