@@ -8,23 +8,48 @@ export function setupSmoothScroll() {
     smoothTouch: false
   });
 
-  function raf(time) {
+  let rafId = null;
+  const raf = (time) => {
     lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
-  requestAnimationFrame(raf);
-  return lenis;
+    rafId = requestAnimationFrame(raf);
+  };
+
+  const start = () => {
+    if (rafId !== null) return;
+    rafId = requestAnimationFrame(raf);
+  };
+
+  const stop = () => {
+    if (rafId === null) return;
+    cancelAnimationFrame(rafId);
+    rafId = null;
+  };
+
+  const destroy = () => {
+    stop();
+    if (typeof lenis.destroy === 'function') {
+      lenis.destroy();
+    }
+  };
+
+  start();
+
+  return { lenis, start, stop, destroy };
 }
 
 export function setupScenes({ particles, reducedMotion }) {
-  if (!window.gsap) return;
+  if (!window.gsap) {
+    return { cleanup: () => {}, triggers: [], tweens: [] };
+  }
   const ScrollTrigger = window.ScrollTrigger;
+  const createdTriggers = [];
+  const createdTweens = [];
   const sections = Array.from(document.querySelectorAll('.scene'));
   sections.forEach((section) => {
     const tint = section.dataset.sceneHex;
     window.gsap.set(section, { backgroundColor: 'transparent' });
 
-    ScrollTrigger?.create({
+    const trigger = ScrollTrigger?.create({
       trigger: section,
       start: 'top top',
       end: '+=150%',
@@ -56,11 +81,14 @@ export function setupScenes({ particles, reducedMotion }) {
         section.classList.remove('scene--accent');
       }
     });
+    if (trigger) {
+      createdTriggers.push(trigger);
+    }
 
     if (!reducedMotion) {
       const inner = section.querySelector('.scene__inner');
       const items = inner ? inner.querySelectorAll(':scope > *') : [];
-      window.gsap.from(items, {
+      const tween = window.gsap.from(items, {
         opacity: 0,
         y: 32,
         duration: 0.8,
@@ -72,6 +100,19 @@ export function setupScenes({ particles, reducedMotion }) {
           toggleActions: 'play none none reverse'
         }
       });
+      if (tween) {
+        createdTweens.push(tween);
+      }
     }
   });
+
+  ScrollTrigger?.refresh?.();
+
+  const cleanup = () => {
+    createdTweens.splice(0).forEach((tween) => tween?.kill?.());
+    createdTriggers.splice(0).forEach((scrollTrigger) => scrollTrigger?.kill?.());
+    ScrollTrigger?.refresh?.();
+  };
+
+  return { cleanup, triggers: createdTriggers, tweens: createdTweens };
 }

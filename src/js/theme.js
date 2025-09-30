@@ -1,14 +1,37 @@
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const motionSubscribers = new Set();
+
+function notifyMotionChange(matches) {
+  theme.isReducedMotion = matches;
+  document.body.classList.toggle('is-reduced-motion', matches);
+  motionSubscribers.forEach((callback) => {
+    try {
+      callback(matches);
+    } catch (error) {
+      console.error('Motion preference subscriber failed', error);
+    }
+  });
+}
+
+export function onMotionPreferenceChange(callback) {
+  if (typeof callback !== 'function') {
+    return () => {};
+  }
+
+  motionSubscribers.add(callback);
+  callback(prefersReducedMotion.matches);
+
+  return () => {
+    motionSubscribers.delete(callback);
+  };
+}
 
 export const theme = {
   isReducedMotion: prefersReducedMotion.matches,
   init() {
-    if (this.isReducedMotion) {
-      document.body.classList.add('is-reduced-motion');
-    }
+    document.body.classList.toggle('is-reduced-motion', this.isReducedMotion);
     prefersReducedMotion.addEventListener('change', (event) => {
-      this.isReducedMotion = event.matches;
-      document.body.classList.toggle('is-reduced-motion', this.isReducedMotion);
+      notifyMotionChange(event.matches);
     });
     this.injectCursorAura();
   },
